@@ -2,7 +2,9 @@
 require 'layout.php';
 exigir_admin();
 
-$res = $conn->query("SELECT * FROM relatorio_estoque");
+$res = $conn->query("SELECT id, nome, estoque, preco_compra, preco_venda,
+                             (preco_venda - preco_compra) * estoque AS lucro_estocado
+                      FROM produtos");
 $linhas = $res->fetch_all(MYSQLI_ASSOC);
 
 $valor_custo = 0; $valor_venda = 0; $lucro = 0;

@@ -127,24 +127,8 @@ ALTER TABLE `entradas`
   ADD CONSTRAINT `fk_entradas_produto` FOREIGN KEY IF NOT EXISTS (`produto_id`) REFERENCES `produtos` (`id`),
   ADD CONSTRAINT `fk_entradas_fornecedor` FOREIGN KEY IF NOT EXISTS (`fornecedor_id`) REFERENCES `fornecedores` (`id`);
 
--- ---------- Views usadas pelas telas de estoque ----------
-
-DROP VIEW IF EXISTS `estoque_atual`;
-
-CREATE OR REPLACE VIEW `relatorio_estoque` AS
-  SELECT id, nome, estoque, preco_compra, preco_venda,
-         (preco_venda - preco_compra) * estoque AS lucro_estocado
-  FROM produtos;
-
-CREATE OR REPLACE VIEW `entradas_detalhes` AS
-  SELECT e.id, p.nome AS produto, e.quantidade, e.data_entrada
-  FROM entradas e JOIN produtos p ON p.id = e.produto_id;
-
-CREATE OR REPLACE VIEW `saidas_detalhes` AS
-  SELECT s.id, c.nome AS cliente, p.nome AS produto, s.quantidade, s.valor_total, s.data_saida
-  FROM saidas s
-  JOIN produtos p ON p.id = s.produto_id
-  JOIN clientes c ON c.id = s.cliente_id;
+-- As telas fazem as consultas direto nas tabelas (sem views), porque
+-- hospedagens grátis costumam não permitir CREATE VIEW.
 
 -- ---------- Dados iniciais ----------
 

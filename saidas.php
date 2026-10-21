@@ -2,7 +2,9 @@
 require 'layout.php';
 exigir_admin();
 
-$res = $conn->query("SELECT * FROM saidas_detalhes ORDER BY data_saida DESC");
+$res = $conn->query("SELECT s.id, c.nome AS cliente, p.nome AS produto, s.quantidade, s.valor_total, s.data_saida
+                      FROM saidas s JOIN produtos p ON p.id = s.produto_id JOIN clientes c ON c.id = s.cliente_id
+                      ORDER BY s.data_saida DESC");
 $linhas = $res->fetch_all(MYSQLI_ASSOC);
 $qtd = array_sum(array_column($linhas, 'quantidade'));
 $soma = array_sum(array_column($linhas, 'valor_total'));

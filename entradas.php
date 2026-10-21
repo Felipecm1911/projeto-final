@@ -2,7 +2,9 @@
 require 'layout.php';
 exigir_admin();
 
-$res = $conn->query("SELECT * FROM entradas_detalhes ORDER BY data_entrada DESC");
+$res = $conn->query("SELECT e.id, p.nome AS produto, e.quantidade, e.data_entrada
+                      FROM entradas e JOIN produtos p ON p.id = e.produto_id
+                      ORDER BY e.data_entrada DESC");
 $linhas = $res->fetch_all(MYSQLI_ASSOC);
 $total = array_sum(array_column($linhas, 'quantidade'));
 

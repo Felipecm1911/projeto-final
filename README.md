@@ -4,6 +4,20 @@ Projeto final.
 
 Sistema web para uma loja de erva-mate controlar **pedidos, estoque, caixa e clientes**, feito em PHP e MySQL.
 
+## Teste online
+
+**[ervamate-gestao.infinityfree.me](https://ervamate-gestao.infinityfree.me)**
+
+Entre com a conta de demonstração:
+
+| Usuário | Senha |
+|---|---|
+| `demo` | `demo123` |
+
+- A conta de demonstração tem o nível **caixa**: painel, pedidos, produtos e caixa. Telas de administração (usuários, configurações) ficam só para o administrador.
+- Os dados são **fictícios**. Pode testar à vontade: criar pedidos, registrar entradas e saídas no caixa.
+- O site está em uma hospedagem **gratuita**: pode demorar alguns segundos para abrir e às vezes mostra uma verificação antes da primeira página.
+
 ## O que o sistema faz
 
 - **Painel** com saldo do caixa, vendas do dia e do mês, gráfico dos últimos 7 dias e produtos para repor

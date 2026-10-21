@@ -13,7 +13,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->execute();
     $hash = $stmt->get_result()->fetch_row()[0] ?? '';
 
-    if (!password_verify($atual, $hash)) {
+    // A conta de demonstração do site público fica com a senha do README
+    if ($usuario === 'demo') {
+        $erro = 'A senha da conta de demonstração não pode ser alterada.';
+    } elseif (!password_verify($atual, $hash)) {
         $erro = 'A senha atual está errada.';
     } elseif (strlen($nova) < 6) {
         $erro = 'A nova senha precisa ter pelo menos 6 caracteres.';

@@ -6,6 +6,11 @@ $user = "root";
 $pass = "";
 $db = getenv('ERVA_DB') ?: "erva_mate_db"; // ERVA_DB troca o banco (usado para testes)
 
+// Na hospedagem, o config.php (fora do GitHub) troca os dados acima pelos do servidor
+if (file_exists(__DIR__ . '/config.php')) {
+    require __DIR__ . '/config.php';
+}
+
 // Erro de banco vira exceção (padrão só a partir do PHP 8.1; o XAMPP daqui é 8.0).
 // Sem isso, uma gravação que falha no meio do pedido passa em silêncio.
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
@@ -15,6 +20,6 @@ try {
 } catch (mysqli_sql_exception $e) {
     error_log($e);
     http_response_code(500);
-    die('<p style="font-family:sans-serif;padding:24px">Não foi possível conectar ao banco de dados. Confira se o MySQL do XAMPP está ligado e se o banco_completo.sql foi importado.</p>');
+    die('<p style="font-family:sans-serif;padding:24px">Não foi possível conectar ao banco de dados. Confira se o MySQL está ligado, se o banco foi importado e se os dados de conexão estão certos.</p>');
 }
 ?>

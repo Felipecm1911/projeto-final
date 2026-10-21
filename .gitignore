@@ -7,3 +7,6 @@ Thumbs.db
 .vscode/
 .idea/
 *.log
+
+# Dados de conexão da hospedagem (têm senha, nunca vão para o GitHub)
+/config.php

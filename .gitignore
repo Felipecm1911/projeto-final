@@ -1,0 +1,9 @@
+# Bibliotecas do Composer (recriadas com: composer install)
+/vendor/
+
+# Arquivos do sistema e de editores
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.log

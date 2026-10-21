@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrar · Erva Mate</title>
+    <link rel="icon" href="logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="estilo.css">
+    <style>
+        .login {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            min-height: 100vh;
+        }
+        .login-foto {
+            position: relative;
+            margin: 0;
+            background: #f4f4f2;
+            overflow: hidden;
+        }
+        .login-foto img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1.2s ease;
+        }
+        .login-foto img.ativa { opacity: 1; }
+        .carrossel-pontos {
+            position: absolute;
+            left: 0; right: 0; bottom: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 4px;
+        }
+        .carrossel-pontos button {
+            width: 28px;
+            height: 28px;
+            padding: 0;
+            border: 0;
+            background: none;
+            cursor: pointer;
+        }
+        .carrossel-pontos button::after {
+            content: "";
+            display: block;
+            width: 10px;
+            height: 10px;
+            margin: auto;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, .55);
+            transition: background-color .2s, transform .2s;
+        }
+        .carrossel-pontos button:hover::after { background: #fff; }
+        .carrossel-pontos button[aria-current="true"]::after { background: var(--erva); transform: scale(1.3); }
+        .login-lado {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 36px;
+            padding: 40px clamp(24px, 6vw, 96px);
+            background: var(--folha);
+            color: #fff;
+        }
+        .login-lado .marca { padding: 0; }
+        .login-titulo h1 {
+            font-size: clamp(40px, 3.7vw, 56px);
+            font-weight: 800;
+            font-stretch: 110%;
+            letter-spacing: -0.04em;
+            line-height: .95;
+            color: var(--erva);
+        }
+        .login-titulo p { margin: 16px 0 0; font-size: 18px; color: var(--folha-tinta); max-width: 34ch; }
+        .login-lado form { display: grid; gap: 16px; max-width: 420px; }
+        .login-lado h2 { font-size: 20px; font-weight: 750; font-stretch: 108%; }
+        .login-lado label { color: #fff; }
+        .login-lado input { border-color: var(--folha-2); }
+        .login-lado input:focus { border-color: var(--erva); box-shadow: 0 0 0 3px rgba(183, 201, 59, .35); }
+        .login-lado .botao { min-height: 48px; font-size: 16px; margin-top: 6px; }
+        .login-lado .mensagem { margin: 0; }
+        @media (max-width: 860px) {
+            .login { grid-template-columns: 1fr; }
+            .login-foto { height: 34vh; min-height: 220px; order: -1; }
+            .login-lado { padding: 28px 20px 36px; gap: 28px; justify-content: flex-start; }
+            .login-titulo h1 { font-size: 40px; }
+            .login-titulo p { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+<div class="login">
+    <section class="login-foto" aria-roledescription="carrossel" aria-label="Fotos do chimarrão">
+        <img class="ativa" src="img/login-2.jpg" alt="Cuias de chimarrão sobre manta colorida, com erva-mate e chaleira" style="object-position: 35% 60%">
+        <img src="img/login-4.jpg" alt="Mão segurando uma cuia de chimarrão diante de um lago" style="object-position: 50% 55%">
+        <img src="img/login-5.jpg" alt="Água quente da garrafa térmica caindo na cuia" style="object-position: 45% 55%" loading="lazy">
+        <img src="img/login-1.jpg" alt="Homem de chapéu tomando chimarrão" style="object-position: 45% 40%" loading="lazy">
+        <img src="img/login-3.jpg" alt="Gaúcho pilchado com a cuia na mão, encostado num muro de tijolos" style="object-position: 50% 42%" loading="lazy">
+        <div class="carrossel-pontos" role="group" aria-label="Escolher foto"></div>
+    </section>
+
+    <main class="login-lado">
+        <a class="marca" href="login.html">
+            <img src="logo.png" alt="">
+            <div><strong>Erva Mate</strong><span>Gestão da loja</span></div>
+        </a>
+
+        <div class="login-titulo">
+            <h1>Pedidos, estoque e caixa</h1>
+            <p>Entre para registrar as vendas e acompanhar o dia da loja.</p>
+        </div>
+
+        <form action="conexaologin.php" method="post">
+            <h2>Entrar</h2>
+            <div class="mensagem erro" id="erro" role="alert" hidden></div>
+            <div class="campo">
+                <label for="usuario">Usuário</label>
+                <input type="text" id="usuario" name="usuario" autocomplete="username" required autofocus>
+            </div>
+            <div class="campo">
+                <label for="senha">Senha</label>
+                <input type="password" id="senha" name="senha" autocomplete="current-password" required>
+            </div>
+            <button class="botao" type="submit">Entrar</button>
+        </form>
+    </main>
+</div>
+<script>
+    var erros = {
+        login: 'Usuário ou senha incorretos.',
+        vazio: 'Preencha o usuário e a senha.'
+    };
+    var codigo = new URLSearchParams(location.search).get('erro');
+    if (erros[codigo]) {
+        var caixa = document.getElementById('erro');
+        caixa.textContent = erros[codigo];
+        caixa.hidden = false;
+    }
+
+    // Carrossel: troca a foto a cada 5 s; as bolinhas escolhem uma foto
+    (function () {
+        var fotos = document.querySelectorAll('.login-foto img');
+        var pontos = document.querySelector('.carrossel-pontos');
+        var atual = 0, timer;
+        var parado = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        fotos.forEach(function (foto, i) {
+            var b = document.createElement('button');
+            b.type = 'button';
+            b.setAttribute('aria-label', 'Foto ' + (i + 1));
+            b.addEventListener('click', function () { mostrar(i); reiniciar(); });
+            pontos.appendChild(b);
+        });
+
+        function mostrar(i) {
+            fotos[atual].classList.remove('ativa');
+            atual = i;
+            fotos[atual].classList.add('ativa');
+            pontos.querySelectorAll('button').forEach(function (b, j) { b.setAttribute('aria-current', j === atual); });
+            // Zoom lento na foto que entra
+            if (window.gsap && !parado) gsap.fromTo(fotos[atual], { scale: 1.08 }, { scale: 1, duration: 6, ease: 'power1.out' });
+        }
+        function reiniciar() {
+            clearInterval(timer);
+            if (!parado) timer = setInterval(function () { mostrar((atual + 1) % fotos.length); }, 5000);
+        }
+
+        window.addEventListener('load', function () { mostrar(0); reiniciar(); });
+    })();
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="animacoes.js"></script>
+</body>
+</html>
